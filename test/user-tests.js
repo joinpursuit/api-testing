@@ -42,4 +42,21 @@ describe('User tests', () => {
         done();
       })
   });
+  it(`/users/id/:id should repsond with one specific user using their id`, (done)=>{
+    supertest(server)
+      .get('/users/id/2')
+      .end((err,res)=>{
+        expect(res.body).be.a('object');
+        expect(res.body.username).equal('test2');
+        done();
+      })
+  });
+  it(`/users/:username should respond with one specific user using their username `,(done)=>{
+    supertest(server)
+      .get('/users/username/test2')
+      .end((err,res)=>{
+        expect(res.body).be.a('object');
+        done();
+      })
+  })
 });

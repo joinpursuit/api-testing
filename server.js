@@ -13,5 +13,27 @@ app.get('/users', (req, res) => {
   })
 });
 
+app.get('/users/id/:id',(req,res)=>{
+	User.findById(req.params.id)
+		.then((data)=>{
+			console.log(data)
+			res.send(data);
+		}).catch((error)=>{
+			console.log(error, 'Error with getting users by id')
+			res.send(200);
+		})
+});
+app.get('/users/username/:username',(req,res)=>{
+	User.findOne({where:{username:req.params.username}})
+		.then((data)=>{
+			console.log(data)
+			res.send(data);
+		}).catch((error)=>{
+			console.log(error, 'Error with getting users by username')
+			res.send(200);
+		})
+});
+
+
 
 module.exports = app;
