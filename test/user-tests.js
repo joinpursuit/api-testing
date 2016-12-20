@@ -42,4 +42,53 @@ describe('User tests', () => {
         done();
       })
   });
+
+    it(`'/:id' should respond with one user`, (done) => {
+    supertest(server)
+      .get('/user/id/1')
+      .end((err, res) => {
+        expect(res.body).to.be.a("object");
+        expect(res.body.username).equal('test1');
+        expect(res.body.email).equal("test1@gmail.com");
+        expect(res.body.password).equal('pass1');
+        done();
+      })
+  });
+  ///users/:username GET individual user by username
+  it("'/user/username/:username' gets user by username", (done)=>{
+    supertest(server)
+      .get('/user/username/test1')
+      .end((err, res)=>{
+        expect(res.body).to.be.a("object");
+        expect(res.body.username).equal("test1");
+        expect(res.body.email).equal("test1@gmail.com");
+        expect(res.body.password).equal("pass1");
+        done();
+      })
+  });
+  // /users/sort/a-z GET users sorted a-z by username 
+   it(`'/users/sort/a-z' should get all users sorted a-z by username`, (done) => {
+    supertest(server)
+      .get('/users/sort/a-z')
+      .end((err, res) => {
+        expect(res.body).to.be.a("array");
+        expect(res.body[0].username).equal(users[0].username);
+        expect(res.body[1].username).equal(users[1].username);
+        expect(res.body[2].username).equal(users[2].username);
+        done();
+      })
+  });
+  //'/users' POST a new user
+    //example of how to do a test to get all users route
+  it(`'/users' should create one user`, (done) => {
+    supertest(server)
+      .post('/users')
+      .type('form')
+      .send({username:'hello',email: 'hello@gmail.com',password:'hello1'})
+      .end((err, res) => {
+        expect(res.body).exist;
+        done();
+      })
+  });
+
 });
