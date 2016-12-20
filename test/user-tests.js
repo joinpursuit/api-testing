@@ -67,11 +67,11 @@ describe('User tests', () => {
       })
   });
   // /users/sort/a-z GET users sorted a-z by username 
-   it(`'/users' should respond with all users sorted a-z by username`, (done) => {
+   it(`'/users/sort/a-z' should get all users sorted a-z by username`, (done) => {
     supertest(server)
-      .get('/users')
+      .get('/users/sort/a-z')
       .end((err, res) => {
-        expect(res.body.length).equal(3);
+        expect(res.body).to.be.a("array");
         expect(res.body[0].username).equal(users[0].username);
         expect(res.body[1].username).equal(users[1].username);
         expect(res.body[2].username).equal(users[2].username);
@@ -79,5 +79,16 @@ describe('User tests', () => {
       })
   });
   //'/users' POST a new user
+    //example of how to do a test to get all users route
+  it(`'/users' should create one user`, (done) => {
+    supertest(server)
+      .post('/users')
+      .type('form')
+      .send({username:'hello',email: 'hello@gmail.com',password:'hello1'})
+      .end((err, res) => {
+        expect(res.body).exist;
+        done();
+      })
+  });
 
 });
