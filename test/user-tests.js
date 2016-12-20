@@ -42,4 +42,47 @@ describe('User tests', () => {
         done();
       })
   });
+
+  it(`'/users' should respond with new user`, (done) => {
+    supertest(server)
+      .post('/users')
+      .end((err, res) => {
+        expect(res.body.length).equal(1);
+        // expect(res.body[0].username).equal(users[users.length-1].username);
+        done();
+      })
+  });
+
+  it("/users/id/:id should respond with one user", (done) => {
+    supertest(server)
+    .get('/users/id/:id')
+    .end((err,res) => {
+      expect(res.body.length).equal(1);
+      done();
+    })
+  });
+
+  it('users/username/:username should respond with one user', (done) => {
+    supertest(server)
+    .get('users/username/:username')
+    .end((err,res) => {
+      expect(res.body.length).equal(1);
+      done();
+    })
+  });
+
+  it('/users/sort/a-z should respond with all users in alphabet order', (done) => {
+    supertest(server)
+    .get('/users/sort/a-z')
+    .end((err,res) => {
+      expect(res.body.length).equal(3);
+      expect(res.body[0].username).equal(users[0].username);
+      expect(res.body[1].username).equal(users[1].username);
+      expect(res.body[2].username).equal(users[2].username);
+      done();
+    })
+  });
+
+
+
 });
