@@ -45,12 +45,12 @@ describe('User tests', () => {
 
     it(`'/:id' should respond with one user`, (done) => {
     supertest(server)
-      .get('/users/id/:id')
+      .get('/user/id/1')
       .end((err, res) => {
-        expect(res.body.length).equal(1);
-        expect(res.body[0].username).equal('test1');
-        expect(res.body[0].email).equal("test1@gmail.com");
-        expect(res.body[0].password).equal('pass1');
+        expect(res.body).to.be.a("object");
+        expect(res.body.username).equal('test1');
+        expect(res.body.email).equal("test1@gmail.com");
+        expect(res.body.password).equal('pass1');
         done();
       })
   });
@@ -66,7 +66,18 @@ describe('User tests', () => {
         done();
       })
   });
-
+  // /users/sort/a-z GET users sorted a-z by username 
+   it(`'/users' should respond with all users sorted a-z by username`, (done) => {
+    supertest(server)
+      .get('/users')
+      .end((err, res) => {
+        expect(res.body.length).equal(3);
+        expect(res.body[0].username).equal(users[0].username);
+        expect(res.body[1].username).equal(users[1].username);
+        expect(res.body[2].username).equal(users[2].username);
+        done();
+      })
+  });
   //'/users' POST a new user
 
 });
