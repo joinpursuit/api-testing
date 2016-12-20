@@ -13,5 +13,22 @@ app.get('/users', (req, res) => {
   })
 });
 
+app.get('/users/id/:id', (req, res) => {
+	User.findById(req.params.id)
+	.then((data) => {
+		res.send(data)
+	})
+})
+
+app.get('/users/username/:username', (req, res) => {
+	User.findAll({
+		where: {
+			username: "test1"
+		}
+	})
+	.then((data) => {
+		res.send(data)
+	})
+})
 
 module.exports = app;
