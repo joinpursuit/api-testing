@@ -42,4 +42,14 @@ describe('User tests', () => {
         done();
       })
   });
+  it(`'/users/:id' get user by Id`, (done) => {
+    supertest(server)
+    .get('/users/id/1')
+    .end((err, res) => {
+        console.log(res.body)
+        expect(res.body.username).equal(users[0].username);
+        done();
+    })
+  });
+
 });
