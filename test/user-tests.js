@@ -2,6 +2,7 @@ var expect = require('chai').expect;
 var supertest = require('supertest');
 var server = require('../server');
 var User = require('../models/user-model');
+var bodyParser = require('body-parser');
 
 describe('User tests', () => {
   //fake user data that we'll use for tests
@@ -42,4 +43,56 @@ describe('User tests', () => {
         done();
       })
   });
+
+  it(`'/users/:id' should respond with single user`, (done) => {
+    supertest(server)
+      .get('/users/1')
+      .end((err, res) => {
+        expect('test1').equal(users[0].username);
+        done();
+      })
+  });
+
+  it(`'/users/:username should response with username`, (done) => {
+    supertest(server)
+      .get('/user/test2')
+      .end((err, res) => {
+        expect('test2').equal(users[1].username);
+        done();
+      })
+  });
+
+  it(`'/users/sort/a-z' should return usernames in abc order`, (done) => {
+    supertest(server)
+      .get('/users/sort/a-z')
+      .end((err, res) => {
+        console.log( users.sort(function (a,b) { return a<b} ) )
+        //expect('{test1, test2, test3}').equal(users.sort(function (a,b) { return a>b} ));
+        done();
+      })
+  })
+
+    it(`'/users' posting new user !'`, (done) => {
+      let newUser = {username: 'test4', email: 'test4@gmail.com', password: 'pass4'}
+    supertest(server)
+      .post('/users')
+      .send(newUser)
+      .expect(200)
+      .end((err, res) => {
+        done();
+      })
+  });
+
+
+
 });
+
+///users/sort/a-z GET users sorted a-z by username
+
+
+
+
+
+
+
+
