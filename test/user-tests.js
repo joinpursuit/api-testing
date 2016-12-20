@@ -48,7 +48,6 @@ describe('User tests', () => {
       .get('/users/id/:id')
       .end((err, res) => {
         expect(res.body.length).equal(1);
-        expect(res.body[0].id).equal(req.params.id);
         expect(res.body[0].username).equal('test1');
         expect(res.body[0].email).equal("test1@gmail.com");
         expect(res.body[0].password).equal('pass1');

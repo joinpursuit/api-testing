@@ -13,5 +13,12 @@ app.get('/users', (req, res) => {
   })
 });
 
+app.get('/users/id/:id', (req, res) => {
+  User.findOne({where:{_id: req.params.id}})
+  .then((data) => {
+    res.send(data);
+  })
+});
+
 
 module.exports = app;
