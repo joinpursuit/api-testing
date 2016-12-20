@@ -13,5 +13,20 @@ app.get('/users', (req, res) => {
   })
 });
 
+app.get('/users/id/:id', (req, res) => {
+  User.findOne({where:{id:req.params.id}})
+  .then((data) => {
+    res.send(data);
+  })
+});
+
+app.get('/users/username/:username', (req, res) => {
+  User.findOne({where:{username:req.params.username}})
+  .then((data) => {
+  	// console.log('ARE WE GETTING ID-=========',data)
+    res.send(data);
+  })
+});
+
 
 module.exports = app;

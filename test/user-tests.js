@@ -22,7 +22,7 @@ describe('User tests', () => {
   //this is just an example of how to do a basic test, in this case to he '/' route
   it(`'/' should respond with 'hello world!'`, (done) => {
     supertest(server)
-      .get('/')
+      .get('/') //make api call
       .end((err, res) => {
         expect(res.text).to.eql('hello world!');
         //done is required in order to execute the test
@@ -42,4 +42,27 @@ describe('User tests', () => {
         done();
       })
   });
+
+  //  /users/:id GET individual user by id
+  it('/users/id/:id GET individual user by id',(done)=>{
+    supertest(server)
+    .get('/users/id/1')//is like postman
+    .end((err,res)=>{
+      expect(res.body.id).equal(1);
+      done()
+    })
+  })
+
+  // GET user by username
+  it('/users/username/:username  GET user by username',(done)=>{
+    supertest(server)
+    .get('/users/username/test1')
+    .end((err,res)=>{
+      expect(res.body.username).eql('test1');
+      done();
+    });
+  });
+
+
+
 });
