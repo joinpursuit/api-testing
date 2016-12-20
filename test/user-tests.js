@@ -42,4 +42,19 @@ describe('User tests', () => {
         done();
       })
   });
+
+  ///users/:username GET individual user by username
+  it("'/user/username/:username' gets user by username", (done)=>{
+    supertest(server)
+      .get('/users/username/test1')
+      .end((err, res)=>{
+        expect(res.body).to.have.lengthOf(3);
+        expect(res.body[0].username).equal("test1");
+        expect(res.body[0].email).equal("test1@gmail.com");
+        expect(res.body[0].password).equal("pass1");
+        done();
+      })
+  });
+
+  //'/users' POST a new user
 });
