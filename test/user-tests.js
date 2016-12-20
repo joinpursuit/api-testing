@@ -42,4 +42,49 @@ describe('User tests', () => {
         done();
       })
   });
+  it(`'/users/id/:id' should respond with individual user by id`, (done) => {
+    supertest(server)
+    .get('/users/id/2')
+    .end((err, res) => {
+      expect(res.body.id).equal(2);
+      done();
+    })
+  })
+  it(`'/users/username/:username' should respond with individual user by username`, (done) => {
+    supertest(server)
+    .get('/users/username/test1')
+    .end((err, res) => {
+      expect(res.body.username).equal('test1');
+      done();
+    })
+  })
+  //   it(`'/users/sort/a-z' should respond with sorted users from a-z`, (done) => {
+  //   supertest(server)
+  //   .get('/users/sort/a-z')
+  //   .end((err, res) => {
+  //     expect(res.body.length).equal(3);
+  //     expect(res.body[0].username).equal(users[0].username);
+  //     expect(res.body[1].username).equal(users[1].username);
+  //     expect(res.body[2].username).equal(users[2].username);      
+  //     done();
+  //   })
+  // })
+  //   it(`'/users' should create a new user`, (done) => {
+  //   supertest(server)
+  //   .post('/users')
+  //   .end((err, res) => {
+  //     expect(res.body.length).equal(1);
+  //     expect(res.body[0].username).equal(users[0].username);
+  //     expect(res.body[0].email).equal(users[0].email;
+  //     expect(res.body[0].password).equal(users[0].password);      
+  //     done();
 });
+
+
+
+
+
+
+
+
+
