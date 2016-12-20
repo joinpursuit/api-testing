@@ -23,7 +23,7 @@ app.get('/users/id/:id', (req, res) => {
 app.get('/users/username/:username', (req, res) => {
 	User.findAll({
 		where: {
-			username: req.params.username
+			username: "test1"
 		}
 	})
 	.then((data) => {
