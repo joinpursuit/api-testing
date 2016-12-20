@@ -34,7 +34,7 @@ app.get('/users/username/:username', (req, res) => {
 
 app.get('/users/sort/a-z', (req, res) => {
   User.findAll({
-    order: [["username", "DESC"]]
+    order: [["username"]]
   })
   .then((data) => {
     res.send(data);
@@ -48,6 +48,7 @@ app.post('/users', (req, res) => {
     password: req.body.password
   })
   .then((data)=>{
+    console.log(data)
     res.send(data);
   })
 });
