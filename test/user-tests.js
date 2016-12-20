@@ -19,7 +19,7 @@ describe('User tests', () => {
     .catch((err) => console.log('DB Err!', err));
   });
 
-  //this is just an example of how to do a basic test, in this case to he '/' route
+  //this is just an example of how to do a basic test, in this case of the '/' route
   it(`'/' should respond with 'hello world!'`, (done) => {
     supertest(server)
       .get('/')
@@ -42,4 +42,52 @@ describe('User tests', () => {
         done();
       })
   });
+
+  ///users/:id GET individual user by id
+  it('/users/:id should respond with specific user (by id)', (done) => {
+    supertest(server)
+      .get('/users/' + 3)
+      .end( (err, res) => {
+        expect(res.body.username).equal(users[2].username);
+        done();
+      })
+  });
+
+  ////users/:username GET individual user by username
+  it('/users/username/:username should respond with specific user (by username)', (done) => {
+    supertest(server)
+      .get('/users/username/test2')
+      .end( (err, res) => {
+        expect(res.body.username).equal(users[1].username);
+        done();
+      })
+  });
+
+
+  ///////users/sort/a-z GET users sorted a-z by username
+  it('/users/sort/a-z/ should respond with all users sorted alphabetically by username', (done) => {
+    supertest(server)
+    .get('/users/sort/a-z/')
+    .end( (err, res) => {
+      expect(res.body.length).equal(3);
+      expect(res.body[0].username).equal(users[0].username);
+      expect(res.body[1].username).equal(users[1].username);
+      expect(res.body[2].username).equal(users[2].username);
+      done();
+    })
+  });
+
+  ////users POST a new user
+  it('/users should create a new user in our database and respond with said user', (done) => {
+    supertest(server)
+    .post('/users')
+    .send({username: "Gabeisbest", email: "best@gmail.com", password: "best123"})
+    .end( (err, res) => {
+      expect(res.body.username).equal("Gabeisbest");
+      expect(res.body.email).equal("best@gmail.com");
+      expect(res.body.password).equal("best123");
+      done();
+    })
+  });
+
 });
