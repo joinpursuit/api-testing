@@ -13,6 +13,15 @@ app.get('/users', (req, res) => {
         })
 });
 
+app.get('/user/id/:id', (req, res) => {
+  User.findOne({where:
+  				{id: req.params.id}
+  			})
+  .then((data) => {
+    res.send(data);
+  })
+});
+
 app.get('/user/username/:username', (req, res) => {
 	console.log(req.params.username)
     User.findOne({ where: 
@@ -22,6 +31,5 @@ app.get('/user/username/:username', (req, res) => {
     		res.send(data);
     	})
 })
-
 
 module.exports = app;
