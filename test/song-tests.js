@@ -19,4 +19,38 @@ describe('Song tests', () => {
   });
 
   //Your code here:
+
+
+  // /songs GET all songs
+  it(`'/songs' should respond with all songs`, (done) => {
+    supertest(server)
+      .get('/songs')
+      .end((err, res) => {
+        expect(res.body.length).equal(3);
+        expect(res.body[0].title).equal(songs[0].title);
+        expect(res.body[1].title).equal(songs[1].title);
+        expect(res.body[2].title).equal(songs[2].title);
+        done();
+      })
+  });
+
+  // /songs/:id GET individual song by id
+  it(`'/songs:id' should provide a specific song`, (done)=>{
+    supertest(server)
+    .get('/songs/2')
+    .end((err, res) => {
+      expect(res.body[2].title).equal(songs[2].title);
+      done();
+    })
+  })
+
+   
+
+  // /songs/title/:title GET individual song by title
+
+
+  // /songs/sort/z-a GET songs sorted a-z by artist
+
+
+  // /songs POST a new song
 });
