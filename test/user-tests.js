@@ -22,7 +22,7 @@ describe('User tests', () => {
   //this is just an example of how to do a basic test, in this case to he '/' route
   it(`'/' should respond with 'hello world!'`, (done) => {
     supertest(server)
-      .get('/')
+      .get('/') //make api call
       .end((err, res) => {
         expect(res.text).to.eql('hello world!');
         //done is required in order to execute the test
@@ -42,4 +42,49 @@ describe('User tests', () => {
         done();
       })
   });
+
+  //  /users/:id GET individual user by id basically this is out test of data that we are expect to get
+  it('/users/id/:id GET individual user by id',(done)=>{
+    supertest(server)
+    .get('/users/id/1')//is like postman
+    .end((err,res)=>{
+      expect(res.body.id).equal(1);
+      done()
+    })
+  })
+
+  // GET user by username
+  it('/users/username/:username  GET user by username',(done)=>{
+    supertest(server)
+    .get('/users/username/test1')
+    .end((err,res)=>{
+      expect(res.body.username).eql('test1');
+      done();
+    });
+  });
+
+  // GET users sorted a-z by username
+  it('/users/sort/a-z users sorted a-z by username',(done)=>{
+    supertest(server)
+    .get('/users/sort/a-z')
+    .end((err,res)=>{
+      expect(res.body[0].username).eql('test1');
+      expect(res.body[1].username).eql('test2');
+      expect(res.body[2].username).eql('test3');
+      done();
+    });
+  });
+
+  // /users POST a new user
+  it('/users POST a new user',(done)=>{
+    supertest(server)
+    .post('/users')
+    .type('form')
+    .send({username:'hi', email:'hi@gmail.com', password:'hi'})
+    .end((err,res)=>{
+      expect(res.body).exist;
+      done()
+    })
+  })
+
 });
