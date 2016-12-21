@@ -1,11 +1,22 @@
 const Sequelize = require('sequelize');
 const sequelizeConnection = require('../db');
 
-//Your code here:
+var Song = sequelizeConnection.define('songs', {
+  artist: {
+    type: Sequelize.STRING,
+    validate: {
+      len: [1, 50]
+    }
+  },
+  title: {
+    type: Sequelize.STRING,
+    validate: {
+      len: [1, 100]
+    }
+  }
+});
 
+Song.belongsTo(User)
+User.hasMany(Song)
 
-
-
-
-
-//be sure to export your model as Song
+module.exports = Song;

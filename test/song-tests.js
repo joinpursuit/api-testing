@@ -18,5 +18,69 @@ describe('Song tests', () => {
     .catch((err) => console.log('DB Err!', err));
   });
 
-  //Your code here:
-});
+  it(`'/' should respond with 'hello world!'`, (done) => {
+    supertest(server)
+      .get('/')
+      .end((err, res) => {
+        expect(res.text).to.eql('hello world!');
+        //done is required in order to execute the test
+        done();
+      })
+  });
+
+  //example of how to do a test to get all users route
+  it(`'/songs' should respond with all songs`, (done) => {
+    supertest(server)
+      .get('/songs')
+      .end((err, res) => {
+        expect(res.body.length).equal(3);
+        expect({res.body[0].artist, res.body[0].title}).equal({songs[0].artist, songs[0].title });
+        expect({res.body[1].artist, res.body[1].title}).equal({songs[1].artist, songs[1].title });
+        expect({res.body[2].artist, res.body[2].title}).equal({songs[2].x, songs[2].title });
+        done();
+      })
+  });
+  it(`'/songs/:id' should respond with specific song`, (done) => {
+    supertest(server)
+      .get('/songs/id/1')
+      .end((err, res) => {
+        expect(res.body.id).equal(1);
+        done();
+      })
+  });
+  it(`'/songs/:title' should respond with specific song title`, (done) => {
+    supertest(server)
+      .get('/songs/Ignition-(Remix)')
+      .end((err, res) => {
+        expect(res.body.username).eql(users.username);
+        done();
+      })
+  });
+  it(`'/songs/sort/z-a' should respond with users sorted by title, in reverse`, (done) => {
+    supertest(server)
+      .get('/songs/sort/z-a')
+      .end((err, res) => {
+        expect(res.body.length).eql(3);
+        expect({res.body[2].title, res.body[2].artist}).equal({songs[2].title, songs[2].artist });
+        expect({res.body[1].title, res.body[1].artist}).equal({songs[1].title, songs[1].artist });
+        expect({res.body[0].title, res.body[0].artist}).equal({songs[0].title, songs[0].artist });
+        done();
+      })
+  });
+  // http://visionmedia.github.io/superagent/#response-properties
+  it(`'/songs' should create a new song`, (done) => {
+    supertest(server)
+      .post('/songs')
+      .send({ title: 'Love Deluxe', artist: 'Sade', userId })
+      .set('X-API-Key', 'foobar')
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        if (err || !res.ok) {
+          console.log('Oh no! error');
+        } else {
+          console.log('yay got ' + JSON.stringify(res.body));
+        }
+        done();
+      })
+    })
+})

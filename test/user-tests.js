@@ -42,4 +42,47 @@ describe('User tests', () => {
         done();
       })
   });
-});
+  it(`'/users/:id' should respond with specific user`, (done) => {
+    supertest(server)
+      .get('/users/id/1')
+      .end((err, res) => {
+        expect(res.body.id).equal(1);
+        done();
+      })
+  });
+  it(`'/users/:username' should respond with specific username`, (done) => {
+    supertest(server)
+      .get('/users/test1')
+      .end((err, res) => {
+        expect(res.body.username).eql(users.username);
+        done();
+      })
+  });
+  it(`'/users/sort/a-z' should respond with users sorted by username`, (done) => {
+    supertest(server)
+      .get('/users/sort/a-z')
+      .end((err, res) => {
+        expect(res.body.length).eql(3);
+        expect(res.body[0].username).equal(users[0].username);
+        expect(res.body[1].username).equal(users[1].username);
+        expect(res.body[2].username).equal(users[2].username);
+        done();
+      })
+  });
+  // http://visionmedia.github.io/superagent/#response-properties
+  it(`'/users' should create a new user`, (done) => {
+    supertest(server)
+      .post('/users')
+      .send({ username: 'test4', email: 'test4@gmail.com', password: 'pass4' })
+      .set('X-API-Key', 'foobar')
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        if (err || !res.ok) {
+          console.log('Oh no! error');
+        } else {
+          console.log('yay got ' + JSON.stringify(res.body));
+        }
+        done();
+      })
+    })
+})
