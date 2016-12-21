@@ -43,7 +43,7 @@ describe('User tests', () => {
       })
   });
 
-  //  /users/:id GET individual user by id
+  //  /users/:id GET individual user by id basically this is out test of data that we are expect to get
   it('/users/id/:id GET individual user by id',(done)=>{
     supertest(server)
     .get('/users/id/1')//is like postman
@@ -63,6 +63,28 @@ describe('User tests', () => {
     });
   });
 
+  // GET users sorted a-z by username
+  it('/users/sort/a-z users sorted a-z by username',(done)=>{
+    supertest(server)
+    .get('/users/sort/a-z')
+    .end((err,res)=>{
+      expect(res.body[0].username).eql('test1');
+      expect(res.body[1].username).eql('test2');
+      expect(res.body[2].username).eql('test3');
+      done();
+    });
+  });
 
+  // /users POST a new user
+  it('/users POST a new user',(done)=>{
+    supertest(server)
+    .post('/users')
+    .type('form')
+    .send({username:'hi', email:'hi@gmail.com', password:'hi'})
+    .end((err,res)=>{
+      expect(res.body).exist;
+      done()
+    })
+  })
 
 });
